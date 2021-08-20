@@ -42,4 +42,4 @@
 		<pbx-xfer e164="$Target" />
       </function>    
 </voicemail>
-<!-- CallID wiki-src/xml/CallID 1,0,0,0 (C) innovaphone AG 2010-2012 -->
+<!-- CallID wiki-src/xml/CallID 1,0,1,0 (C) innovaphone AG 2010-2012 -->
