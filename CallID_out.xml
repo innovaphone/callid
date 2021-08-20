@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <voicemail>
-<!-- innovaphone Call ID == inno srl V1.00 KWA 2012 -->
+<!-- innovaphone Call ID outgoing == innovaphone AG V1.00 KWA 2017 -->
 <!-- Wellcome + user  -->
 	<function define="Wellcome">  
 		<assign out="$Teiln" value="" /> 
@@ -10,15 +10,13 @@
   		 	<pbx-getdtmfdigit out-dtmf="$dtmf" /> 
 			<switch var="$dtmf">
 				<case equal="#">
-				<lib-strcat string="#" string2="$Teiln" out-string="$Teiln" />
-				<lib-strcat string="$cgpn" string2="$Teiln" out-string="$Teiln" />
-  				<assign out="$Teiln-ok" value="true" /> 
-  				<return /> 
+					<assign out="$Teiln-ok" value="true" /> 
+	  				<return /> 
 				</case>
  			 </switch>
   			 <lib-strcat string="$Teiln" string2="$dtmf" out-string="$Teiln" /> 
   		 </event>
-		<store-get root="" name="Track200.$coder" out-url="$ctrl" /> 
+		<store-get root="" name="$Message" out-url="$ctrl" /> 
         	<pbx-prompt url="$ctrl" /> 
 		<while notcond="$Teiln-ok">
   			<store-get root="" name="silence.$coder" out-url="$ctrl" /> 
@@ -35,11 +33,17 @@
 		<event type="timer" name="vbguard">
   		  		<pbx-disc /> 
   		</event>
-		<timer name="vbguard" sec="10" />
+		<timer name="vbguard" sec="50" />
 		<store-cookie root="" name="Target.txt" out="$Target"/>
+		<assign out="$Message" value="Track200.$coder" /> 
 		<call name="wellcome" /> 
+		<lib-strcat string="#" string2="$Teiln" out-string="$Teiln" />
+		<assign out="$PN" value="$Teiln" /> 
+		<assign out="$Message" value="Track201.$coder" /> 
+		<call name="wellcome" /> 
+		<lib-strcat string="$Teiln" string2="$PN" out-string="$Teiln" /> 
 		<pbx-prepcallinfo cgpn="$Teiln"/>
-		<pbx-xfer e164="$Target" />
+		<pbx-xfer e164="$Teiln" />
       </function>    
 </voicemail>
 <!-- CallID wiki-src/xml/CallID 1,0,2,0 (C) innovaphone AG 2010-2017 -->
